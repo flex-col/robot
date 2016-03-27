@@ -1,0 +1,23 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="h_margin">16dp</dimen>
+    <dimen name="v_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="value_5dp">5dp</dimen>
+    <dimen name="act_hor_mar_sm">8dp</dimen>
+
+    <!--font-->
+    <dimen name="font_s">12sp</dimen>
+    <dimen name="font_n">14sp</dimen>
+    <dimen name="font_m">16sp</dimen>
+    <dimen name="font_l">18sp</dimen>
+    <dimen name="font_xl">22sp</dimen>
+
+    <!--margin-->
+    <dimen name="margin24">24dp</dimen>
+    <dimen name="margin48">48dp</dimen>
+    <dimen name="margin56">56dp</dimen>
+</resources>

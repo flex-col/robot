@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_chat"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp">
+
+    <TextView
+        android:id="@+id/tv_time"
+        style="@style/chat_time"
+        android:text="11:01" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/h_margin"
+        android:layout_marginRight="72dp">
+
+        <ImageView
+            android:id="@+id/fresco_avatar"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@mipmap/img_default_gray" />
+
+        <FrameLayout
+            android:id="@+id/fm_content"
+            style="@style/chat_content_target">
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/text_content" />
+        </FrameLayout>
+
+    </RelativeLayout>
+</LinearLayout>

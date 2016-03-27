@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+
+    <!--basic-->
+    <color name="bg_app">#fcfcfc</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+
+    <!--chat-->
+    <color name="bg_chat">#F4EFF0</color>
+    <color name="text_news_tip">#9f9f9f</color>
+    <color name="text_content">#6c6c6c</color>
+
+
+    <!--blue-->
+    <color name="blue500">#5677fc</color>
+    <color name="blue300">#91a7ff</color>
+</resources>
