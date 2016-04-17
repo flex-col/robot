@@ -13,6 +13,7 @@ import com.app.turingrobot.core.RobotApi;
 import com.app.turingrobot.core.RobotApplication;
 import com.app.turingrobot.utils.StatusBarUtil;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.message.PushAgent;
 
 /**
  * Created by Alpha on 2016/3/26 20:56.
@@ -27,6 +28,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PushAgent.getInstance(this).onAppStart();
         _application = RobotApplication.getInstance();
         _apiService = _application.getService();
 

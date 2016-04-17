@@ -8,6 +8,8 @@ import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -23,6 +25,7 @@ import rx.Observable;
  * <p>
  * Created by 右右 on 2015/4/29.
  */
+
 public class RobotApi {
     private static final String endpoint = Constants.BASE_URL;
 
@@ -35,7 +38,8 @@ public class RobotApi {
 
     private static RobotApi mRobotApi;
 
-    private RobotApi() {
+    @Inject
+    public RobotApi() {
 
     }
 

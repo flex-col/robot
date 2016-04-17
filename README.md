@@ -6,8 +6,6 @@
 别名: robot
 创建日期: 2016-3-26
 条目类型: PrivateKeyEntry
-证书链长度: 1
-证书[1]:
 所有者: CN=knife, OU=knife, O=knife, L=sh, ST=sh, C=zh
 发布者: CN=knife, OU=knife, O=knife, L=sh, ST=sh, C=zh
 序列号: 5c2f1a74
@@ -19,17 +17,4 @@
          签名算法名称: SHA256withRSA
          版本: 3
 
-扩展:
-
-#1: ObjectId: 2.5.29.14 Criticality=false
-SubjectKeyIdentifier [
-KeyIdentifier [
-0000: FD 00 E7 43 1E E2 B2 02   48 B5 A2 62 E7 09 9C 2C  ...C....H..b...,
-0010: 0F 04 2F 16                                        ../.
-]
-]
-
-
-
-*******************************************
 *******************************************

@@ -26,6 +26,8 @@ import com.app.turingrobot.ui.fragment.ChatFragment;
 import com.app.turingrobot.utils.GlideUtils;
 import com.app.turingrobot.utils.StatusBarUtil;
 import com.socks.library.KLog;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UmengRegistrar;
 import com.umeng.update.UmengUpdateAgent;
 
 public class MainActivity extends BaseActivity
@@ -45,6 +47,12 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        PushAgent agent = PushAgent.getInstance(this);
+        agent.enable(s -> KLog.i("device_token " + s));
+
+        KLog.i("device_token " + UmengRegistrar.getRegistrationId(this));
+
         StatusBarUtil.setColorForDrawerLayout(this, (DrawerLayout) findViewById(R.id.drawer_layout), ContextCompat
                 .getColor(this, R.color.colorPrimary));
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

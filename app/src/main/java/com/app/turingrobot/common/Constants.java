@@ -4,7 +4,9 @@ package com.app.turingrobot.common;
  * Created by Alpha on 2016/3/26 21:47.
  */
 public class Constants {
-    //请求基础URL
+    /**
+     * 请求基础URL
+     */
     public static final String BASE_URL = "http://www.tuling123.com/";
 
     /**

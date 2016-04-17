@@ -17,8 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.app.turingrobot.R;
-import com.app.turingrobot.entity.CoreEntity;
 import com.app.turingrobot.common.Constants;
+import com.app.turingrobot.entity.CoreEntity;
 import com.app.turingrobot.ui.adapter.ChatAdapter;
 import com.app.turingrobot.ui.core.BaseFragment;
 import com.app.turingrobot.utils.ToastUtil;
@@ -62,6 +62,12 @@ public class ChatFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     public void onAttach(Context context) {
         super.onAttach(context);
         _activity = (AppCompatActivity) context;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
     }
 
     @Nullable
@@ -113,7 +119,7 @@ public class ChatFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             case R.id.btn_send:
                 String msg = inputLayoutExtra.getEditText().getText().toString().trim();
                 if (TextUtils.isEmpty(msg)) {
-                    ToastUtil.show(_activity, "请输入信息", Toast.LENGTH_SHORT);
+                    ToastUtil.show(mApplication, "请输入信息...", Toast.LENGTH_SHORT);
                     return;
                 }
                 inputLayoutExtra.getEditText().setText("");
