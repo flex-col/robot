@@ -7,7 +7,7 @@ def retrofit_version = '2.0.2'
 android {
 
     compileSdkVersion 23
-    buildToolsVersion "24.0.0 rc1"
+    buildToolsVersion "24.0.0 rc3"
     defaultConfig {
         applicationId "com.app.turingrobot"
         minSdkVersion 14
