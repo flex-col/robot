@@ -72,7 +72,7 @@ public class MainActivity extends BaseActivity
         TextView tv_signature = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv_signature);
 
         tv_name.setText("RxJava");
-        tv_signature.setText("世界这么大，我只想多走走！");
+        tv_signature.setText("世界这么大，我只想多走走！//..");
 
         GlideUtils.displayCircleHeader(img_head, "http://www.jcodecraeer.com/uploads/160106/1-160106013A9345.png");
 

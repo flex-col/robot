@@ -8,7 +8,6 @@ import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
-import javax.inject.Inject;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -38,10 +37,6 @@ public class RobotApi {
 
     private static RobotApi mRobotApi;
 
-    @Inject
-    public RobotApi() {
-
-    }
 
 
     /**

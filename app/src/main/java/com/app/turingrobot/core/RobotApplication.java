@@ -3,9 +3,6 @@ package com.app.turingrobot.core;
 import android.app.Application;
 
 import com.app.turingrobot.BuildConfig;
-import com.app.turingrobot.core.component.AppComponent;
-import com.app.turingrobot.core.component.DaggerAppComponent;
-import com.app.turingrobot.core.module.AppModule;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
 import com.bumptech.glide.load.model.GlideUrl;
@@ -14,8 +11,6 @@ import com.squareup.leakcanary.LeakCanary;
 
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
 
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -28,13 +23,6 @@ public class RobotApplication extends Application {
     private static RobotApi.ApiService apiService;
 
     private static RobotApplication instance;
-
-    private static AppComponent mAppComponent;
-
-    @Inject
-    public RobotApplication() {
-
-    }
 
     @Override
     public void onCreate() {
@@ -50,15 +38,9 @@ public class RobotApplication extends Application {
         Glide.get(this).register(GlideUrl.class, InputStream.class,
                 new OkHttpUrlLoader.Factory(getOkHttpClient()));
 
-        initAppComponent();
 
     }
 
-    private void initAppComponent() {
-        mAppComponent = DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
-                .build();
-    }
 
     public static RobotApplication getInstance() {
         return instance;
@@ -93,7 +75,5 @@ public class RobotApplication extends Application {
         return okHttpClient;
     }
 
-    public static AppComponent getAppComponent() {
-        return mAppComponent;
-    }
+
 }
