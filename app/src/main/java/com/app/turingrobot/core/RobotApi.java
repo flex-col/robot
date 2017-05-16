@@ -9,14 +9,14 @@ import com.google.gson.GsonBuilder;
 import java.util.concurrent.TimeUnit;
 
 
+import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
-import rx.Observable;
 
 
 /**
@@ -36,7 +36,6 @@ public class RobotApi {
     private ApiService service;
 
     private static RobotApi mRobotApi;
-
 
 
     /**
@@ -76,7 +75,7 @@ public class RobotApi {
                     .baseUrl(endpoint)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
         }
         if (service == null) {

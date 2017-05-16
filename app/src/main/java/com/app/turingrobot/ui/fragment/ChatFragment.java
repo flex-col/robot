@@ -24,11 +24,12 @@ import com.app.turingrobot.ui.core.BaseFragment;
 import com.app.turingrobot.utils.ToastUtil;
 import com.socks.library.KLog;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import butterknife.Unbinder;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 聊天
@@ -37,19 +38,21 @@ import rx.schedulers.Schedulers;
 public class ChatFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
 
-    @Bind(R.id.recyclerView)
+    @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @Bind(R.id.swipeRefresh)
+    @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
-    @Bind(R.id.inputLayoutExtra)
+    @BindView(R.id.inputLayoutExtra)
     TextInputLayout inputLayoutExtra;
-    @Bind(R.id.btn_send)
+    @BindView(R.id.btn_send)
     AppCompatButton btnSend;
 
     private ChatAdapter chatAdapter;
     private AppCompatActivity _activity;
 
-    private Subscription _subScription;
+    private Disposable _subScription;
+
+    private Unbinder unbind;
 
 
     public static ChatFragment newInstance() {
@@ -74,7 +77,7 @@ public class ChatFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
-        ButterKnife.bind(this, view);
+        unbind = ButterKnife.bind(this, view);
 
         init();
 
@@ -101,8 +104,11 @@ public class ChatFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onDestroyView() {
+        unbind.unbind();
+        if (_subScription != null && !_subScription.isDisposed()) {
+            _subScription.dispose();
+        }
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     /**
@@ -140,22 +146,13 @@ public class ChatFragment extends BaseFragment implements SwipeRefreshLayout.OnR
      */
     private void sendInfo(String msg) {
         _subScription = _apiService.getText(Constants.APP_KEY, msg)
-                .doOnUnsubscribe(() -> _subScription.unsubscribe())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(val -> {
                     val.setTime(System.currentTimeMillis());
                     chatAdapter.addData(val, recyclerView);
-                }, throwable -> {
-                    KLog.e(throwable.getMessage());
-                });
+                }, KLog::e);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (_subScription != null && !_subScription.isUnsubscribed()) {
-            _subScription.unsubscribe();
-        }
-    }
+
 }

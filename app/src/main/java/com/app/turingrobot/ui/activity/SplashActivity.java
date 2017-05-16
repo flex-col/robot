@@ -12,7 +12,7 @@ import com.app.turingrobot.R;
 import com.app.turingrobot.ui.core.BaseActivity;
 import com.app.turingrobot.utils.DeviceUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -22,9 +22,11 @@ import butterknife.ButterKnife;
 public class SplashActivity extends BaseActivity {
 
     private static final long DEFAULT_DELAY_TIME = 4000;
-    @Bind(R.id.logo)
+
+    @BindView(R.id.logo)
     ImageView logo;
-    @Bind(R.id.tv_version)
+
+    @BindView(R.id.tv_version)
     TextView tvVersion;
 
     @Override
