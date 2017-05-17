@@ -10,24 +10,4 @@
         <item name="android:textColor">@color/text_news_tip</item>
     </style>
 
-    <style name="chat_content_mine">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:minHeight">42dp</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:layout_marginRight">@dimen/act_hor_mar_sm</item>
-        <item name="android:layout_toLeftOf">@id/fresco_avatar</item>
-        <item name="android:background">@mipmap/bg_chat_right</item>
-    </style>
-
-    <style name="chat_content_target">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:layout_marginLeft">@dimen/act_hor_mar_sm</item>
-        <item name="android:layout_toRightOf">@id/fresco_avatar</item>
-        <item name="android:background">@mipmap/bg_chat_left</item>
-        <item name="android:minHeight">42dp</item>
-    </style>
-
 </resources>

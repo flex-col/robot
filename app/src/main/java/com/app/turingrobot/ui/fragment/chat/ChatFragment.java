@@ -1,4 +1,4 @@
-package com.app.turingrobot.ui.fragment;
+package com.app.turingrobot.ui.fragment.chat;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,14 +14,15 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.app.turingrobot.R;
 import com.app.turingrobot.common.Constants;
+import com.app.turingrobot.core.App;
 import com.app.turingrobot.entity.CoreEntity;
 import com.app.turingrobot.ui.adapter.ChatAdapter;
 import com.app.turingrobot.ui.core.BaseFragment;
-import com.app.turingrobot.utils.ToastUtil;
+import com.app.turingrobot.ui.dialog.AuthDialogFragment;
+import com.app.turingrobot.utils.TUtil;
 import com.socks.library.KLog;
 
 import butterknife.BindView;
@@ -40,17 +41,19 @@ public class ChatFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefresh;
+
     @BindView(R.id.inputLayoutExtra)
     TextInputLayout inputLayoutExtra;
+
     @BindView(R.id.btn_send)
     AppCompatButton btnSend;
 
     private ChatAdapter chatAdapter;
-    private AppCompatActivity _activity;
 
-    private Disposable _subScription;
+    private Disposable mDisp;
 
     private Unbinder unbind;
 
@@ -61,11 +64,6 @@ public class ChatFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         return chatFragment;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        _activity = (AppCompatActivity) context;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,8 +88,8 @@ public class ChatFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         inputLayoutExtra.setHint("");
         inputLayoutExtra.setHint("Message");
 
-        chatAdapter = new ChatAdapter(_activity);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(_activity, LinearLayoutManager.VERTICAL, false);
+        chatAdapter = new ChatAdapter(activity);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
@@ -99,16 +97,6 @@ public class ChatFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
         sendInfo("Hello!");
 
-    }
-
-
-    @Override
-    public void onDestroyView() {
-        unbind.unbind();
-        if (_subScription != null && !_subScription.isDisposed()) {
-            _subScription.dispose();
-        }
-        super.onDestroyView();
     }
 
     /**
@@ -123,9 +111,16 @@ public class ChatFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_send:
+
+                if (App.getUser() == null) {
+                    AuthDialogFragment.newInstance()
+                            .show(activity.getFragmentManager(), AuthDialogFragment.class.getSimpleName());
+                    return;
+                }
+
                 String msg = inputLayoutExtra.getEditText().getText().toString().trim();
                 if (TextUtils.isEmpty(msg)) {
-                    ToastUtil.show(mApplication, "请输入信息...", Toast.LENGTH_SHORT);
+                    TUtil.show("请输入信息...");
                     return;
                 }
                 inputLayoutExtra.getEditText().setText("");
@@ -145,7 +140,7 @@ public class ChatFragment extends BaseFragment implements SwipeRefreshLayout.OnR
      * @param msg
      */
     private void sendInfo(String msg) {
-        _subScription = _apiService.getText(Constants.APP_KEY, msg)
+        mDisp = apiService.getText(Constants.APP_KEY, msg)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(val -> {
@@ -154,5 +149,14 @@ public class ChatFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 }, KLog::e);
     }
 
+
+    @Override
+    public void onDestroyView() {
+        unbind.unbind();
+        if (mDisp != null) {
+            mDisp.dispose();
+        }
+        super.onDestroyView();
+    }
 
 }

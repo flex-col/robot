@@ -1,42 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/bg_chat"
-    android:orientation="vertical"
     android:paddingBottom="10dp"
     android:paddingTop="10dp">
 
     <TextView
         android:id="@+id/tv_time"
         style="@style/chat_time"
-        android:text="11:01" />
+        android:text="11:01"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <RelativeLayout
+
+    <ImageView
+        android:id="@+id/fresco_avatar"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginRight="@dimen/act_hor_mar_sm"
+        android:layout_marginTop="@dimen/act_hor_mar_sm"
+        android:src="@mipmap/img_default_gray"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_time" />
+
+
+    <TextView
+        android:id="@+id/tv_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="72dp"
-        android:layout_marginRight="@dimen/h_margin">
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/bg_chat_right"
+        android:maxWidth="260dp"
+        android:gravity="left"
+        android:textColor="@color/white"
+        app:layout_constraintRight_toLeftOf="@+id/fresco_avatar"
+        app:layout_constraintTop_toTopOf="@+id/fresco_avatar"
+        tools:text="XXXXXXXXXXXXXXassdsadaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxsdasXXXXX" />
 
-        <ImageView
-            android:id="@+id/fresco_avatar"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:layout_alignParentRight="true"
-            android:src="@mipmap/img_default_gray" />
 
-
-        <FrameLayout
-            android:id="@+id/fm_content"
-            style="@style/chat_content_mine">
-
-            <TextView
-                android:id="@+id/tv_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textColor="@android:color/white" />
-        </FrameLayout>
-
-    </RelativeLayout>
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -1,26 +1,52 @@
 package com.app.turingrobot.ui.core;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 
-import com.app.turingrobot.core.RobotApi;
-import com.app.turingrobot.core.RobotApplication;
+import com.app.turingrobot.core.App;
+import com.app.turingrobot.core.RobotService;
+import com.app.turingrobot.core.dagger.component.DaggerFragmentComponent;
+import com.app.turingrobot.core.dagger.module.FModule;
+import com.app.turingrobot.helper.SpfHelper;
+
+import javax.inject.Inject;
 
 /**
  * Created by Alpha on 2016/3/26 21:55.
  */
 public class BaseFragment extends Fragment {
 
-    protected RobotApi.ApiService _apiService;
+    protected App mApp = App.get();
 
-    protected RobotApplication mApplication;
+    @Inject
+    protected RobotService apiService;
+
+    @Inject
+    protected SpfHelper mSpf;
+
+    protected AppCompatActivity activity;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.activity = (AppCompatActivity) context;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mApplication = RobotApplication.getInstance();
-        _apiService = mApplication.getService();
+        inject();
+    }
+
+    private void inject() {
+        DaggerFragmentComponent.builder()
+                .fModule(new FModule())
+                .appComponent(mApp.getComponent())
+                .build().inject(this);
     }
 
 }

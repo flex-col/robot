@@ -9,29 +9,48 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.app.turingrobot.R;
-import com.app.turingrobot.core.RobotApi;
-import com.app.turingrobot.core.RobotApplication;
+import com.app.turingrobot.core.RobotService;
+import com.app.turingrobot.core.App;
+import com.app.turingrobot.core.dagger.component.DaggerActivityComponent;
+import com.app.turingrobot.core.dagger.module.AModule;
+import com.app.turingrobot.helper.SpfHelper;
 import com.app.turingrobot.utils.StatusBarUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
+
+import javax.inject.Inject;
+
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Alpha on 2016/3/26 20:56.
  */
 public class BaseActivity extends AppCompatActivity {
 
-    protected RobotApplication _application;
+    protected App mApp = App.get();
 
-    protected RobotApi.ApiService _apiService;
+    @Inject
+    protected RobotService apiService;
+
+    @Inject
+    protected SpfHelper mSpf;
+
+    protected CompositeDisposable mDispos = new CompositeDisposable();
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PushAgent.getInstance(this).onAppStart();
-        _application = RobotApplication.getInstance();
-        _apiService = _application.getService();
+        inject();
+    }
 
+    private void inject() {
+        DaggerActivityComponent.builder()
+                .aModule(new AModule())
+                .appComponent(mApp.getComponent())
+                .build()
+                .inject(this);
     }
 
     @Override

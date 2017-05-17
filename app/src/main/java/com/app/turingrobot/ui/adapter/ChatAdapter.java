@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.turingrobot.R;
+import com.app.turingrobot.core.App;
 import com.app.turingrobot.entity.CoreEntity;
+import com.app.turingrobot.entity.user.User;
 import com.app.turingrobot.utils.GlideUtils;
 import com.app.turingrobot.utils.TimeUtil;
 
@@ -72,9 +74,22 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         CoreEntity coreEntity = datas.get(position);
+
         holder.tvContent.setText(coreEntity.getText());
+
         holder.tvTime.setText(TimeUtil.getHourMin(coreEntity.getTime()));
-        GlideUtils.displayCircleHeader(holder.frescoAvatar, "http://bbs.umeng.com/uc_server/avatar.php?uid=34&size=small");
+
+        if (coreEntity.isTarget()) {
+            GlideUtils.displayCircleHeader(holder.frescoAvatar, "http://bbs.umeng.com/uc_server/avatar.php?uid=34&size=small");
+        } else {
+            User userBean = App.getUser();
+            if (userBean != null) {
+                GlideUtils.displayCircleHeader(holder.frescoAvatar, userBean.getIconurl());
+            } else {
+                GlideUtils.displayCircleHeader(holder.frescoAvatar, "http://bbs.umeng.com/uc_server/avatar.php?uid=34&size=small");
+            }
+        }
+
     }
 
     @Override
@@ -86,8 +101,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_time)
         TextView tvTime;
+
         @BindView(R.id.fresco_avatar)
         ImageView frescoAvatar;
+
         @BindView(R.id.tv_content)
         TextView tvContent;
 
