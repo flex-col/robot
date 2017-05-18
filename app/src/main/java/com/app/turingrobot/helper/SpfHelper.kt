@@ -3,7 +3,7 @@ package com.app.turingrobot.helper
 import android.content.Context
 import android.content.SharedPreferences
 import android.text.TextUtils
-import com.app.turingrobot.core.App
+import com.app.turingrobot.app.App
 import com.google.gson.Gson
 
 /**
@@ -75,10 +75,9 @@ class SpfHelper(context: Context) {
 
         const val SP_FILE_NAME = "Sp_file"
 
-        val mGson: Gson by lazy { App.getComponent().gson }
+        val mGson = Gson()
 
-        val mSpf: SpfHelper by lazy { App.getComponent().spfHelper }
-
+        val mSpf = SpfHelper(App.instance!!)
 
         /**
          * 保存

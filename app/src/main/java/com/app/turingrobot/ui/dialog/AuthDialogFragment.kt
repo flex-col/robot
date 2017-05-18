@@ -9,9 +9,6 @@ import android.view.ViewGroup
 
 import com.app.turingrobot.R
 
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.Unbinder
 import com.app.turingrobot.helper.UMHelper
 import com.app.turingrobot.helper.event.AuthEvent
 import com.app.turingrobot.utils.RxBus
@@ -26,14 +23,12 @@ import kernel.toast
 
 class AuthDialogFragment : DialogFragment() {
 
-    private var mUnBinder: Unbinder? = null
 
     private var rootView: View? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.layout_auth, container, false)
         this.rootView = root
-        mUnBinder = ButterKnife.bind(this, root)
         initView()
         return root
     }
@@ -69,14 +64,9 @@ class AuthDialogFragment : DialogFragment() {
 
     companion object {
 
-        @JvmStatic
         fun newInstance(): AuthDialogFragment {
             return AuthDialogFragment()
         }
     }
 
-    override fun onDestroyView() {
-        mUnBinder?.unbind()
-        super.onDestroyView()
-    }
 }

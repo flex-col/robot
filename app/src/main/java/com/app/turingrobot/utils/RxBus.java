@@ -16,6 +16,7 @@ import io.reactivex.subjects.Subject;
  * Created by YoKeyword on 2015/6/17.
  */
 public class RxBus {
+
     private static volatile RxBus mDefaultInstance;
 
     private final Subject<Object> mBus;
@@ -23,9 +24,7 @@ public class RxBus {
     private final Map<Class<?>, Object> mStickyEventMap;
 
     private RxBus() {
-
         mBus = PublishSubject.create().toSerialized();
-
         mStickyEventMap = new ConcurrentHashMap<>();
     }
 

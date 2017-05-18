@@ -2,7 +2,7 @@ package com.app.turingrobot.helper
 
 import android.app.Activity
 import android.content.Context
-import com.app.turingrobot.core.App
+import com.app.turingrobot.app.App
 import com.socks.library.KLog
 import com.umeng.message.PushAgent
 import com.umeng.socialize.UMAuthListener

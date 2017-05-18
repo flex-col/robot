@@ -1,20 +1,12 @@
 package com.app.turingrobot.entity.user
 
-import com.app.turingrobot.core.App
+import com.app.turingrobot.app.App
 
 /**
  * Created by sword on 2017/5/17.
  */
-class User(var uid: String?,
-           var name: String?,
-           var accessToken: String?,
-           var expiration: String?,
-           var gender: String?,
-           var iconurl: String?,
-           var is_yellow_year_vip: String?,
-           var yellow_vip_level: String?,
-           var city: String?,
-           var province: String?) {
+class User(var uid: String?, var name: String?, var accessToken: String?, var expiration: String?, var gender: String?,
+           var iconurl: String?, var is_yellow_year_vip: String?, var yellow_vip_level: String?, var city: String?, var province: String?) {
 
 
     companion object {

@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import com.app.turingrobot.core.App
+import com.app.turingrobot.app.App
 import com.app.turingrobot.utils.TUtil
 import com.socks.library.KLog
 

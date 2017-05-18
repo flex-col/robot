@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
-
+apply plugin: 'kotlin-kapt'
 
 android {
 
@@ -36,7 +36,6 @@ android {
 
     }
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
         main.jniLibs.srcDirs = ['jniLibs']
     }
 
@@ -64,6 +63,7 @@ android {
 }
 
 def retrofit_version = '2.3.0'
+def dagger_version = '2.10'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -71,8 +71,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.umeng.analytics:analytics:latest.integration'
-    compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile "com.squareup.retrofit2:retrofit:$retrofit_version"
     compile 'com.google.code.gson:gson:2.8.0'
     compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
@@ -91,12 +89,14 @@ dependencies {
     compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.14.1'
 
-    compile 'com.google.dagger:dagger:2.10'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
+    compile "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     compile 'com.android.support:multidex:1.0.1'
 }
+

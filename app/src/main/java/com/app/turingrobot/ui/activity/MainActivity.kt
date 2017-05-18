@@ -14,7 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 
 import com.app.turingrobot.R
-import com.app.turingrobot.core.App
+import com.app.turingrobot.app.App
 import com.app.turingrobot.entity.user.User
 import com.app.turingrobot.helper.SpfHelper
 import com.app.turingrobot.helper.UMHelper
@@ -25,30 +25,26 @@ import com.app.turingrobot.ui.fragment.chat.ChatFragment
 import com.app.turingrobot.utils.GlideUtils
 import com.app.turingrobot.utils.RxBus
 import com.app.turingrobot.utils.StatusBarUtil
-import com.app.turingrobot.utils.TUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
 import com.tencent.bugly.Bugly
-import com.umeng.socialize.UMAuthListener
 import com.umeng.socialize.UMShareAPI
-import com.umeng.socialize.bean.SHARE_MEDIA
+import kernel.bindView
 import java.io.InputStream
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private var toolbar: Toolbar? = null
+    val toolbar by bindView<Toolbar>(R.id.toolbar)
 
-    private var drawer: DrawerLayout? = null
+    val drawer by bindView<DrawerLayout>(R.id.drawer_layout)
 
-    private var toggle: ActionBarDrawerToggle? = null
+    var toggle: ActionBarDrawerToggle? = null
 
-    private var chatFragment: ChatFragment? = null
+    var chatFragment: ChatFragment? = null
 
-    private var img_head: ImageView? = null
-
+    var img_head: ImageView? = null
     var tv_name: TextView? = null
-
     var tv_signature: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,20 +53,19 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         //注册Glide请求为OkHttp
         Glide.get(this).register(GlideUrl::class.java, InputStream::class.java,
-                OkHttpUrlLoader.Factory(App.getComponent().okhttp))
+                OkHttpUrlLoader.Factory(okHttp))
 
         Bugly.init(applicationContext, "408e519c80", false)
 
-
         StatusBarUtil.setColorForDrawerLayout(this, findViewById(R.id.drawer_layout) as DrawerLayout, ContextCompat
                 .getColor(this, R.color.colorPrimary))
-        drawer = findViewById(R.id.drawer_layout) as DrawerLayout
-        toolbar = findViewById(R.id.toolbar) as Toolbar
+
         setSupportActionBar(toolbar)
 
         toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer?.addDrawerListener(toggle!!)
+        drawer.addDrawerListener(toggle!!)
         toggle?.syncState()
+
         val navigationView = findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
 
@@ -95,7 +90,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     fun register() {
 
-        mDispos.add(RxBus.registerEvent(AuthEvent::class.java)
+        mDisp.add(RxBus.registerEvent(AuthEvent::class.java)
                 .subscribe({
                     val user = User.parseUser(it.map)
                     SpfHelper.toJsonSave(user)
@@ -109,13 +104,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun shwoAndRegister(user: User?) {
         user?.let {
-            GlideUtils.displayCircleHeader(img_head, user.iconurl)
+            GlideUtils.displayCircleHeader(img_head, user.iconurl!!)
             tv_name?.text = user.name
             tv_signature?.text = user.province + " " + user.city
-
             UMHelper.addAlias(user.uid)
         }
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -127,13 +122,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val transaction = fragmentManager.beginTransaction()
         if (chatFragment == null) {
             chatFragment = ChatFragment.newInstance()
-            transaction.add(R.id.fm_container, chatFragment).hide(chatFragment)
+            transaction.add(R.id.fm_container, chatFragment)
         }
-
-        transaction.show(chatFragment)
-
         transaction.commit()
-
     }
 
     override fun onBackPressed() {
@@ -145,20 +136,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        val id = item.itemId
-        if (id == R.id.action_settings) {
-            return true
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
