@@ -11,7 +11,6 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.app.turingrobot.R
 import com.app.turingrobot.app.App
 import com.app.turingrobot.entity.CoreEntity
@@ -20,11 +19,9 @@ import com.app.turingrobot.ui.core.BaseFragment
 import com.app.turingrobot.ui.dialog.AuthDialogFragment
 import com.app.turingrobot.utils.TUtil
 import com.socks.library.KLog
-
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kernel.bindView
 
 /**
  * 聊天
@@ -33,13 +30,13 @@ import kernel.bindView
 class ChatFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
 
-    val recyclerView by bindView<RecyclerView>(R.id.recyclerView)
+    val recyclerView by lazy { view!!.findViewById(R.id.recyclerView) as RecyclerView }
 
-    val swipeRefresh by bindView<SwipeRefreshLayout>(R.id.swipeRefresh)
+    val swipeRefresh by lazy { view!!.findViewById(R.id.swipeRefresh) as SwipeRefreshLayout }
 
-    val inputLayoutExtra by bindView<TextInputLayout>(R.id.inputLayoutExtra)
+    val inputLayoutExtra by lazy { view!!.findViewById(R.id.inputLayoutExtra) as TextInputLayout }
 
-    val btnSend by bindView<AppCompatButton>(R.id.btn_send)
+    val btnSend by lazy { view!!.findViewById(R.id.btn_send) as AppCompatButton }
 
     private var mAdapter: ChatAdapter? = null
 
@@ -52,8 +49,11 @@ class ChatFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, View.
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_chat, container, false)
-        init()
         return view
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        init()
     }
 
     private fun init() {

@@ -1,4 +1,4 @@
-package kernel
+package com.app.turingrobot.extra
 
 import android.app.Activity
 import android.app.Dialog
@@ -25,6 +25,8 @@ fun <V : View> DialogFragment.bindView(id: Int)
 fun <V : View> Fragment.bindView(id: Int)
         : ReadOnlyProperty<Fragment, V> = required(id, viewFinder)
 
+fun <V : View> android.support.v4.app.Fragment.bindView(id: Int)
+        : ReadOnlyProperty<android.support.v4.app.Fragment, V> = required(id, viewFinder)
 
 fun <V : View> ViewHolder.bindView(id: Int)
         : ReadOnlyProperty<ViewHolder, V> = required(id, viewFinder)
@@ -96,6 +98,9 @@ private val DialogFragment.viewFinder: DialogFragment.(Int) -> View?
 
 private val Fragment.viewFinder: Fragment.(Int) -> View?
     get() = { view.findViewById(it) }
+
+private val android.support.v4.app.Fragment.viewFinder: android.support.v4.app.Fragment.(Int) -> View?
+    get() = { view!!.findViewById(it) }
 
 private val ViewHolder.viewFinder: ViewHolder.(Int) -> View? get() = { itemView.findViewById(it) }
 

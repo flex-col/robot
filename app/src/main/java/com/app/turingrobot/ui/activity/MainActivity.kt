@@ -16,6 +16,7 @@ import android.widget.TextView
 import com.app.turingrobot.R
 import com.app.turingrobot.app.App
 import com.app.turingrobot.entity.user.User
+import com.app.turingrobot.extra.bindView
 import com.app.turingrobot.helper.SpfHelper
 import com.app.turingrobot.helper.UMHelper
 import com.app.turingrobot.helper.event.AuthEvent
@@ -30,7 +31,6 @@ import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
 import com.tencent.bugly.Bugly
 import com.umeng.socialize.UMShareAPI
-import kernel.bindView
 import java.io.InputStream
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {

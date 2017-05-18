@@ -2,20 +2,16 @@ package com.app.turingrobot.ui.dialog
 
 import android.app.DialogFragment
 import android.os.Bundle
-import android.support.v7.widget.AppCompatImageView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.app.turingrobot.R
-
+import com.app.turingrobot.extra.toast
 import com.app.turingrobot.helper.UMHelper
 import com.app.turingrobot.helper.event.AuthEvent
 import com.app.turingrobot.utils.RxBus
 import com.umeng.socialize.UMAuthListener
 import com.umeng.socialize.bean.SHARE_MEDIA
-import kernel.colorRes
-import kernel.toast
 
 /**
  * Created by sword on 2017/5/17.
