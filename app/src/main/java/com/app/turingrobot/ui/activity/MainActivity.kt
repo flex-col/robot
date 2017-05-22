@@ -31,21 +31,19 @@ import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
 import com.tencent.bugly.Bugly
 import com.umeng.socialize.UMShareAPI
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.layout_auth.*
+import kotlinx.android.synthetic.main.nav_header_main.*
+import kotlinx.android.synthetic.main.tb_munion_aditem.*
 import java.io.InputStream
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    val toolbar by bindView<Toolbar>(R.id.toolbar)
-
-    val drawer by bindView<DrawerLayout>(R.id.drawer_layout)
-
-    var toggle: ActionBarDrawerToggle? = null
+    lateinit var toggle: ActionBarDrawerToggle
 
     var chatFragment: ChatFragment? = null
 
-    var img_head: ImageView? = null
-    var tv_name: TextView? = null
-    var tv_signature: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,28 +55,23 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         Bugly.init(applicationContext, "408e519c80", false)
 
-        StatusBarUtil.setColorForDrawerLayout(this, findViewById(R.id.drawer_layout) as DrawerLayout, ContextCompat
+        StatusBarUtil.setColorForDrawerLayout(this, drawer_layout, ContextCompat
                 .getColor(this, R.color.colorPrimary))
 
         setSupportActionBar(toolbar)
 
-        toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer.addDrawerListener(toggle!!)
-        toggle?.syncState()
+        toggle = ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
 
-        val navigationView = findViewById(R.id.nav_view) as NavigationView
-        navigationView.setNavigationItemSelectedListener(this)
+        drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
 
-        img_head = navigationView.getHeaderView(0).findViewById(R.id.imageView) as ImageView
-
-        tv_name = navigationView.getHeaderView(0).findViewById(R.id.tv_name) as TextView
-        tv_signature = navigationView.getHeaderView(0).findViewById(R.id.tv_signature) as TextView
+        nav_view.setNavigationItemSelectedListener(this)
 
         shwoAndRegister(App.getUser())
 
         initFragments()
 
-        img_head?.setOnClickListener {
+        imgHeader?.setOnClickListener {
             if (App.getUser() == null) {
                 AuthDialogFragment.newInstance()
                         .show(fragmentManager, AuthDialogFragment::class.java.simpleName)
@@ -104,7 +97,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun shwoAndRegister(user: User?) {
         user?.let {
-            GlideUtils.displayCircleHeader(img_head, user.iconurl!!)
+            GlideUtils.displayCircleHeader(imgHeader, user.iconurl!!)
             tv_name?.text = user.name
             tv_signature?.text = user.province + " " + user.city
             UMHelper.addAlias(user.uid)

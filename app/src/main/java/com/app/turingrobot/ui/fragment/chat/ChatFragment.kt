@@ -22,21 +22,13 @@ import com.socks.library.KLog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_chat.*
 
 /**
  * 聊天
  * Created by Alpha on 2016/3/26 21:56.
  */
 class ChatFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
-
-
-    val recyclerView by lazy { view!!.findViewById(R.id.recyclerView) as RecyclerView }
-
-    val swipeRefresh by lazy { view!!.findViewById(R.id.swipeRefresh) as SwipeRefreshLayout }
-
-    val inputLayoutExtra by lazy { view!!.findViewById(R.id.inputLayoutExtra) as TextInputLayout }
-
-    val btnSend by lazy { view!!.findViewById(R.id.btn_send) as AppCompatButton }
 
     private var mAdapter: ChatAdapter? = null
 
@@ -57,8 +49,9 @@ class ChatFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, View.
     }
 
     private fun init() {
+
         swipeRefresh.setOnRefreshListener(this)
-        btnSend.setOnClickListener(this)
+        btn_send.setOnClickListener(this)
         inputLayoutExtra.hint = "Message"
 
         mAdapter = ChatAdapter(activity!!)

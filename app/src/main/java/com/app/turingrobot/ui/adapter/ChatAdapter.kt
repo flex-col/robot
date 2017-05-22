@@ -58,16 +58,16 @@ class ChatAdapter(private val mContext: Context) : RecyclerView.Adapter<ChatAdap
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val (_, text, isTarget, time) = mDatas[position]
 
-        holder.tvContent!!.text = text
+        holder.tvContent.text = text
 
-        holder.tvTime!!.text = TimeUtil.getHourMin(time)
+        holder.tvTime.text = TimeUtil.getHourMin(time)
 
         if (isTarget) {
             GlideUtils.displayCircleHeader(holder.frescoAvatar, "http://bbs.umeng.com/uc_server/avatar.php?uid=34&size=small")
         } else {
             val userBean = App.getUser()
             if (userBean != null) {
-                GlideUtils.displayCircleHeader(holder.frescoAvatar, userBean.iconurl!!)
+                GlideUtils.displayCircleHeader(holder.frescoAvatar, userBean.iconurl)
             } else {
                 GlideUtils.displayCircleHeader(holder.frescoAvatar, "http://bbs.umeng.com/uc_server/avatar.php?uid=34&size=small")
             }
@@ -93,8 +93,8 @@ class ChatAdapter(private val mContext: Context) : RecyclerView.Adapter<ChatAdap
     companion object {
 
         //接收到的消息
-        private val TARGET = 0
+        const val TARGET = 0
         //发送的消息
-        private val MINE = 1
+        const val MINE = 1
     }
 }
