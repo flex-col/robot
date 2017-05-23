@@ -1,6 +1,7 @@
 package com.app.turingrobot.ui.fragment.chat
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.TextInputLayout
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.AppCompatButton
@@ -14,15 +15,24 @@ import android.view.ViewGroup
 import com.app.turingrobot.R
 import com.app.turingrobot.app.App
 import com.app.turingrobot.entity.CoreEntity
+import com.app.turingrobot.helper.rx.RxResultHelper
+import com.app.turingrobot.multitype.MultiTypeAdapter
+import com.app.turingrobot.multitype.base.MultiTypePresenterImpl
+import com.app.turingrobot.multitype.base.ViewModel
 import com.app.turingrobot.ui.adapter.ChatAdapter
 import com.app.turingrobot.ui.core.BaseFragment
 import com.app.turingrobot.ui.dialog.AuthDialogFragment
+import com.app.turingrobot.ui.fragment.chat.model.LinkModel
+import com.app.turingrobot.ui.fragment.chat.model.TextMsgModel
+import com.app.turingrobot.ui.fragment.chat.model.TextMsgTargetModel
 import com.app.turingrobot.utils.TUtil
 import com.socks.library.KLog
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_chat.*
+import java.util.ArrayList
 
 /**
  * 聊天
@@ -30,9 +40,11 @@ import kotlinx.android.synthetic.main.fragment_chat.*
  */
 class ChatFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
-    private var mAdapter: ChatAdapter? = null
+    private var mAdapter: MultiTypeAdapter? = null
 
-    private var mDisp: Disposable? = null
+    private val mDisp: CompositeDisposable = CompositeDisposable()
+
+    private val mData: MutableList<ViewModel> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +52,7 @@ class ChatFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, View.
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater!!.inflate(R.layout.fragment_chat, container, false)
+        val view = inflater?.inflate(R.layout.fragment_chat, container, false)
         return view
     }
 
@@ -52,9 +64,19 @@ class ChatFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, View.
 
         swipeRefresh.setOnRefreshListener(this)
         btn_send.setOnClickListener(this)
+
         inputLayoutExtra.hint = "Message"
 
-        mAdapter = ChatAdapter(activity!!)
+        val multiTypePresenter = MultiTypePresenterImpl
+                .newBuilder()
+                .addHolders(TextMsgModel.DataPresenterImpl())
+                .addHolders(TextMsgTargetModel.DataPresenterImpl())
+                .addHolders(LinkModel.DataPresenterImpl())
+                .withViewModels(mData)
+                .build()
+
+        mAdapter = MultiTypeAdapter(multiTypePresenter)
+
         val layoutManager = LinearLayoutManager(activity,
                 LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = layoutManager
@@ -62,7 +84,7 @@ class ChatFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, View.
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = mAdapter
 
-        sendInfo("Hello!")
+        sendInfo("小星棒棒哒")
 
     }
 
@@ -70,6 +92,10 @@ class ChatFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, View.
      * 刷新
      */
     override fun onRefresh() {
+
+        Handler().postDelayed({
+            swipeRefresh.isRefreshing = false
+        }, 2000)
 
     }
 
@@ -93,9 +119,10 @@ class ChatFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, View.
                 inputLayoutExtra!!.editText!!.setText("")
                 val coreEntity = CoreEntity()
                 coreEntity.text = msg
-                coreEntity.time = System.currentTimeMillis()
-                coreEntity.isTarget = false
-                mAdapter!!.addData(coreEntity, recyclerView!!)
+                mData.add(TextMsgModel(coreEntity))
+                mAdapter?.notifyItemInserted(mData.size - 1)
+                recyclerView.scrollToPosition(mData.size - 1)
+
                 sendInfo(msg)
             }
         }
@@ -103,22 +130,21 @@ class ChatFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, View.
 
     /**
      * 请求数据
-
      * @param msg
      */
     private fun sendInfo(msg: String) {
-        mDisp = apiService!!.getText("2a397396709f674d8996787b5b0b0b12", msg)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        mDisp.add(apiService.getText("2a397396709f674d8996787b5b0b0b12", msg)
+                .compose(RxResultHelper.transform())
                 .subscribe({
-                    it.time = System.currentTimeMillis()
-                    mAdapter!!.addData(it, recyclerView!!)
-                }, KLog::e)
+                    mData.add(it)
+                    mAdapter?.notifyItemInserted(mData.size - 1)
+                    recyclerView.scrollToPosition(mData.size - 1)
+                }, KLog::e))
     }
 
 
     override fun onDestroyView() {
-        mDisp?.dispose()
+        mDisp.dispose()
         super.onDestroyView()
     }
 

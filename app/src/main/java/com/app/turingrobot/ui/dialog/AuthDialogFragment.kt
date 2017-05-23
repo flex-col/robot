@@ -1,6 +1,7 @@
 package com.app.turingrobot.ui.dialog
 
 import android.app.DialogFragment
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +12,10 @@ import com.app.turingrobot.helper.UMHelper
 import com.app.turingrobot.helper.event.AuthEvent
 import com.app.turingrobot.utils.RxBus
 import com.umeng.socialize.UMAuthListener
+import com.umeng.socialize.UMShareAPI
 import com.umeng.socialize.bean.SHARE_MEDIA
 
-/**
+/*
  * Created by sword on 2017/5/17.
  */
 
@@ -36,6 +38,7 @@ class AuthDialogFragment : DialogFragment() {
     }
 
     private val listener = object : UMAuthListener {
+
         override fun onComplete(p0: SHARE_MEDIA?, p1: Int, p2: MutableMap<String, String>) {
             "授权成功".toast()
             dismissAllowingStateLoss()

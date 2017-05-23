@@ -17,7 +17,7 @@ import com.app.turingrobot.utils.TimeUtil
 import java.util.ArrayList
 
 
-/**
+/*
  * Created by Alpha on 2016/3/26 23:03.
  */
 class ChatAdapter(private val mContext: Context) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
@@ -48,10 +48,10 @@ class ChatAdapter(private val mContext: Context) : RecyclerView.Adapter<ChatAdap
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         if (viewType == TARGET) {
             return ViewHolder(LayoutInflater.from(mContext)
-                    .inflate(R.layout.item_chat_txt_target, parent, false))
+                    .inflate(R.layout.item_type_chat_txt_target, parent, false))
         } else {
             return ViewHolder(LayoutInflater.from(mContext)
-                    .inflate(R.layout.item_chat_txt, parent, false))
+                    .inflate(R.layout.item_type_chat_txt, parent, false))
         }
     }
 
@@ -65,12 +65,7 @@ class ChatAdapter(private val mContext: Context) : RecyclerView.Adapter<ChatAdap
         if (isTarget) {
             GlideUtils.displayCircleHeader(holder.frescoAvatar, "http://bbs.umeng.com/uc_server/avatar.php?uid=34&size=small")
         } else {
-            val userBean = App.getUser()
-            if (userBean != null) {
-                GlideUtils.displayCircleHeader(holder.frescoAvatar, userBean.iconurl)
-            } else {
-                GlideUtils.displayCircleHeader(holder.frescoAvatar, "http://bbs.umeng.com/uc_server/avatar.php?uid=34&size=small")
-            }
+            GlideUtils.displayCircleHeader(holder.frescoAvatar, App.getUser()!!.iconurl)
         }
 
     }

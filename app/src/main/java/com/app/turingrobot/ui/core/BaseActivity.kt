@@ -46,8 +46,8 @@ open class BaseActivity : AppCompatActivity() {
         App.component.inject(this)
     }
 
-    override fun setContentView(view: View) {
-        super.setContentView(view)
+    override fun setContentView(layoutResID: Int) {
+        super.setContentView(layoutResID)
         setStatusBarColor()
     }
 

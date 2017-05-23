@@ -1,5 +1,6 @@
 package com.app.turingrobot.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -44,6 +45,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     var chatFragment: ChatFragment? = null
 
+    var imgHeader: ImageView? = null
+
+
+    var tv_name: TextView? = null
+
+    var tv_signature: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,9 +74,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        shwoAndRegister(App.getUser())
-
         initFragments()
+
+        imgHeader = nav_view.getHeaderView(0).findViewById(R.id.imgHeader) as ImageView
+        tv_name = nav_view.getHeaderView(0).findViewById(R.id.tv_name) as TextView
+        tv_signature = nav_view.getHeaderView(0).findViewById(R.id.tv_signature) as TextView
 
         imgHeader?.setOnClickListener {
             if (App.getUser() == null) {
@@ -77,6 +86,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         .show(fragmentManager, AuthDialogFragment::class.java.simpleName)
             }
         }
+
+        shwoAndRegister(App.getUser())
 
         register()
     }
@@ -94,21 +105,22 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data)
+    }
 
+    @SuppressLint("SetTextI18n")
     private fun shwoAndRegister(user: User?) {
         user?.let {
-            GlideUtils.displayCircleHeader(imgHeader, user.iconurl!!)
+
+            GlideUtils.displayCircleHeader(imgHeader, user.iconurl)
             tv_name?.text = user.name
             tv_signature?.text = user.province + " " + user.city
             UMHelper.addAlias(user.uid)
         }
     }
 
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        super.onActivityResult(requestCode, resultCode, data)
-        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data)
-    }
 
     private fun initFragments() {
         val fragmentManager = supportFragmentManager
@@ -137,6 +149,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             //聊天
         } else if (id == R.id.nav_share) {
             //分享
+            val textIntent = Intent(Intent.ACTION_SEND)
+            textIntent.type = "text/plain"
+            textIntent.putExtra(Intent.EXTRA_TEXT, "http://shouji.baidu.com/software/7319838.html")
+            startActivity(Intent.createChooser(textIntent, "分享"))
         }
 
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout

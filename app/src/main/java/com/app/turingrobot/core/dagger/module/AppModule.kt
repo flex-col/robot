@@ -3,6 +3,8 @@ package com.app.turingrobot.core.dagger.module
 import com.app.turingrobot.app.App
 import com.app.turingrobot.core.RobotService
 import com.app.turingrobot.helper.SpfHelper
+import com.facebook.stetho.Stetho
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
@@ -25,7 +27,7 @@ class AppModule(private val mApp: App) {
 
     @Provides
     @Singleton
-    fun provideSpHelper(): SpfHelper{
+    fun provideSpHelper(): SpfHelper {
         return SpfHelper(mApp)
     }
 
@@ -41,7 +43,9 @@ class AppModule(private val mApp: App) {
     @Provides
     @Singleton
     fun providedOkhttp(): OkHttpClient {
+        Stetho.initializeWithDefaults(mApp)
         val okHttpClient = OkHttpClient.Builder()
+                .addInterceptor(StethoInterceptor())
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .build()

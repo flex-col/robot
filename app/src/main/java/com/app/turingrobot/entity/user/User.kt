@@ -2,7 +2,7 @@ package com.app.turingrobot.entity.user
 
 import com.app.turingrobot.app.App
 
-/**
+/*
  * Created by sword on 2017/5/17.
  */
 class User(var uid: String?, var name: String?, var accessToken: String?, var expiration: String?, var gender: String?,

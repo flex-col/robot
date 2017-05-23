@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.text.TextUtils
 import com.app.turingrobot.app.App
+import com.app.turingrobot.core.dagger.module.AppModule_ProvideGsonFactory
 import com.google.gson.Gson
 
 /**
@@ -12,11 +13,12 @@ import com.google.gson.Gson
  */
 class SpfHelper(context: Context) {
 
-    private val sp: SharedPreferences = context.getSharedPreferences(SP_FILE_NAME, Context.MODE_PRIVATE)
+    private val sp: SharedPreferences
 
     private val editor: SharedPreferences.Editor?
 
     init {
+        sp = context.getSharedPreferences(SP_FILE_NAME, Context.MODE_PRIVATE)
         editor = sp.edit()
     }
 
@@ -77,7 +79,7 @@ class SpfHelper(context: Context) {
 
         val mGson = Gson()
 
-        val mSpf = SpfHelper(App.instance!!)
+        val mSpf = SpfHelper(App.instance)
 
         /**
          * 保存
@@ -102,7 +104,7 @@ class SpfHelper(context: Context) {
          */
         @JvmStatic
         fun <T : Any?> getByClass(clz: Class<T>): T? {
-            val key = checkNotNull(clz).simpleName
+            val key = checkNotNull(clz.simpleName)
             val value = mSpf.getString(key)
             if (TextUtils.isEmpty(value)) {
                 return null
