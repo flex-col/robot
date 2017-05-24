@@ -2,12 +2,9 @@ package com.app.turingrobot.ui.fragment.chat
 
 import android.os.Bundle
 import android.os.Handler
-import android.support.design.widget.TextInputLayout
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.AppCompatButton
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +16,6 @@ import com.app.turingrobot.helper.rx.RxResultHelper
 import com.app.turingrobot.multitype.MultiTypeAdapter
 import com.app.turingrobot.multitype.base.MultiTypePresenterImpl
 import com.app.turingrobot.multitype.base.ViewModel
-import com.app.turingrobot.ui.adapter.ChatAdapter
 import com.app.turingrobot.ui.core.BaseFragment
 import com.app.turingrobot.ui.dialog.AuthDialogFragment
 import com.app.turingrobot.ui.fragment.chat.model.LinkModel
@@ -27,10 +23,7 @@ import com.app.turingrobot.ui.fragment.chat.model.TextMsgModel
 import com.app.turingrobot.ui.fragment.chat.model.TextMsgTargetModel
 import com.app.turingrobot.utils.TUtil
 import com.socks.library.KLog
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_chat.*
 import java.util.ArrayList
 
@@ -42,7 +35,7 @@ class ChatFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, View.
 
     private var mAdapter: MultiTypeAdapter? = null
 
-    private val mDisp: CompositeDisposable = CompositeDisposable()
+    private val mDisp = CompositeDisposable()
 
     private val mData: MutableList<ViewModel> = ArrayList()
 
@@ -84,7 +77,7 @@ class ChatFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, View.
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = mAdapter
 
-        sendInfo("小星棒棒哒")
+        sendInfo("Hello")
 
     }
 
@@ -133,7 +126,7 @@ class ChatFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, View.
      * @param msg
      */
     private fun sendInfo(msg: String) {
-        mDisp.add(apiService.getText("2a397396709f674d8996787b5b0b0b12", msg)
+        mDisp.add(apiService.sendMsg("2a397396709f674d8996787b5b0b0b12", msg)
                 .compose(RxResultHelper.transform())
                 .subscribe({
                     mData.add(it)

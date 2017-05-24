@@ -26,27 +26,40 @@ public class RxResultHelper {
         return new ObservableTransformer<T, ViewModel>() {
             @Override
             public ObservableSource<ViewModel> apply(Observable<T> upstream) {
-                return upstream.subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io()).flatMap(new Function<T, ObservableSource<ViewModel>>() {
-                    @Override
-                    public Observable<ViewModel> apply(T result) throws Exception {
+                return upstream
+                        .compose(RxResultHelper.apply())
+                        .flatMap(new Function<T, ObservableSource<ViewModel>>() {
+                            @Override
+                            public Observable<ViewModel> apply(T result) throws Exception {
 
-                        final int code = result.getCode();
+                                final int code = result.getCode();
 
-                        if (code == 200000) {
-                            //链接类
-                            return Observable.just(new LinkModel(result));
-                        } else if (code == 100000) {
-                            //文字类
-                            return Observable.just(new TextMsgTargetModel(result));
-                        }
+                                if (code == 200000) {
+                                    //链接类
+                                    return Observable.just(new LinkModel(result));
+                                } else if (code == 100000) {
+                                    //文字类
+                                    return Observable.just(new TextMsgTargetModel(result));
+                                }
 
-                        return Observable.error(new RuntimeException("has no code found"));
-                    }
-                }).observeOn(AndroidSchedulers.mainThread());
+                                return Observable.error(new RuntimeException("has no code found"));
+                            }
+                        });
             }
         };
 
     }
 
 
+    public static <T> ObservableTransformer<T, T> apply() {
+        return new ObservableTransformer<T, T>() {
+            @Override
+            public ObservableSource<T> apply(Observable<T> upstream) {
+                return upstream
+                        .subscribeOn(Schedulers.io())
+                        .unsubscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+            }
+        };
+    }
 }

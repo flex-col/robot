@@ -55,3 +55,9 @@
    public static *** i(...);
    public static *** w(...);
  }
+
+ -keep class cn.smssdk.**{*;}
+ -keep class com.mob.**{*;}
+
+ -dontwarn com.mob.**
+ -dontwarn cn.smssdk.**

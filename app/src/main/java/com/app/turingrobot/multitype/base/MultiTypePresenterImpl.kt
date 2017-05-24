@@ -66,17 +66,17 @@ class MultiTypePresenterImpl private constructor(builder: MultiTypePresenterImpl
         val holders: SparseArray<ViewHolderPresenter> = SparseArray()
 
 
-        fun withViewModels(`val`: List<ViewModel>): Builder {
-            viewModels = `val`
+        fun withViewModels(value: List<ViewModel>): Builder {
+            viewModels = value
             return this
         }
 
-        fun addHolders(`val`: ViewHolderPresenter): Builder {
+        fun addHolders(value: ViewHolderPresenter): Builder {
             checkNotNull(holders) { "worker must not be null" }
-            if (this.holders.get(`val`.type()) != null) {
+            if (this.holders.get(value.type()) != null) {
                 throw IllegalArgumentException("worker type has exits")
             }
-            this.holders.put(`val`.type(), `val`)
+            this.holders.put(value.type(), value)
             return this
         }
 

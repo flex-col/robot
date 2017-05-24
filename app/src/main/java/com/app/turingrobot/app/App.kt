@@ -3,11 +3,13 @@ package com.app.turingrobot.app
 import android.app.Application
 import android.content.Context
 import android.support.multidex.MultiDex
+import cn.smssdk.SMSSDK
 import com.app.turingrobot.BuildConfig
 import com.app.turingrobot.core.dagger.component.AppComponent
 import com.app.turingrobot.core.dagger.component.DaggerAppComponent
 import com.app.turingrobot.core.dagger.module.AppModule
 import com.app.turingrobot.entity.user.User
+import com.app.turingrobot.extra.log
 import com.app.turingrobot.helper.SpfHelper
 import com.app.turingrobot.utils.TUtil
 import com.socks.library.KLog
@@ -39,14 +41,16 @@ class App : Application() {
         KLog.init(BuildConfig.DEBUG)
         TUtil.initialize(this)
 
+        SMSSDK.initSDK(this, "1e1fb0e729218", "99469d141238d22e8b47307d02527996")
+
         val agent = PushAgent.getInstance(this)
         agent.register(object : IUmengRegisterCallback {
             override fun onSuccess(s: String) {
-                KLog.i("友盟推送注册成功 device_token ------> " + s)
+                ("友盟推送注册成功 device_token ------> " + s).log()
             }
 
             override fun onFailure(s: String, s1: String) {
-                KLog.i(s + " " + s1)
+                (s + " " + s1).log()
             }
         })
 
@@ -84,7 +88,7 @@ class App : Application() {
         }
 
         fun get(): App {
-            return instance!!
+            return instance
         }
 
         fun setUserBean(user: User) {

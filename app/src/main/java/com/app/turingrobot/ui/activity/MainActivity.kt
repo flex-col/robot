@@ -9,10 +9,13 @@ import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
+import android.util.Base64
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
+import cn.smssdk.EventHandler
+import cn.smssdk.SMSSDK
 
 import com.app.turingrobot.R
 import com.app.turingrobot.app.App
@@ -38,6 +41,14 @@ import kotlinx.android.synthetic.main.layout_auth.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import kotlinx.android.synthetic.main.tb_munion_aditem.*
 import java.io.InputStream
+import cn.smssdk.SMSSDK.RESULT_COMPLETE
+import cn.smssdk.gui.RegisterPage
+import com.app.turingrobot.entity.params.user.UserParams
+import com.app.turingrobot.extra.toBase64
+import com.app.turingrobot.extra.toast
+import com.app.turingrobot.helper.rx.RxResultHelper
+import java.nio.charset.Charset
+
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -113,11 +124,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     @SuppressLint("SetTextI18n")
     private fun shwoAndRegister(user: User?) {
         user?.let {
-
-            GlideUtils.displayCircleHeader(imgHeader, user.iconurl)
-            tv_name?.text = user.name
-            tv_signature?.text = user.province + " " + user.city
-            UMHelper.addAlias(user.uid)
+            GlideUtils.displayCircleHeader(imgHeader, it.iconurl)
+            tv_name?.text = it.name
+            tv_signature?.text = it.province + " " + it.city
+            UMHelper.addAlias(it.uid)
         }
     }
 

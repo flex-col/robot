@@ -103,8 +103,7 @@ private val android.support.v4.app.Fragment.viewFinder: android.support.v4.app.F
 
 private val ViewHolder.viewFinder: ViewHolder.(Int) -> View? get() = { itemView.findViewById(it) }
 
-private fun viewNotFound(id: Int, desc: KProperty<*>): Nothing =
-        throw IllegalStateException("View ID $id for '${desc.name}' not found.")
+private fun viewNotFound(id: Int, desc: KProperty<*>): Nothing = throw IllegalStateException("View ID $id for '${desc.name}' not found.")
 
 @Suppress("UNCHECKED_CAST")
 private fun <T, V : View> required(id: Int, finder: T.(Int) -> View?) = Lazy { t: T, desc -> t.finder(id) as V? ?: viewNotFound(id, desc) }

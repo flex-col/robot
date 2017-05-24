@@ -34,12 +34,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:background="@drawable/bg_chat_right"
-        android:maxWidth="260dp"
         android:gravity="left"
+        android:maxWidth="260dp"
         android:textColor="@color/white"
         app:layout_constraintRight_toLeftOf="@+id/fresco_avatar"
         app:layout_constraintTop_toTopOf="@+id/fresco_avatar"
-        tools:text="XXXXXXXXXXXXXXassdsadaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxsdasXXXXX" />
+        tools:text="测试数据" />
 
 
 </android.support.constraint.ConstraintLayout>

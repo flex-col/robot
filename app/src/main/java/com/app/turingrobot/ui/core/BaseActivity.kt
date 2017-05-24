@@ -12,6 +12,7 @@ import com.app.turingrobot.core.RobotService
 import com.app.turingrobot.app.App
 import com.app.turingrobot.helper.SpfHelper
 import com.app.turingrobot.utils.StatusBarUtil
+import com.google.gson.Gson
 import com.umeng.analytics.MobclickAgent
 import com.umeng.message.PushAgent
 
@@ -33,6 +34,9 @@ open class BaseActivity : AppCompatActivity() {
 
     @Inject
     lateinit var okHttp: OkHttpClient
+
+    @Inject
+    lateinit var gson: Gson
 
     val mDisp = CompositeDisposable()
 
