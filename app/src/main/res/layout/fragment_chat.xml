@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -14,7 +15,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_type_chat_txt_target">
 
         </android.support.v7.widget.RecyclerView>
 
@@ -36,21 +38,20 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Message"
+                android:hint="请输入内容"
                 android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
         </android.support.design.widget.TextInputLayout>
 
 
-        <android.support.v7.widget.AppCompatButton
+        <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/btn_send"
             android:layout_width="wrap_content"
-            android:layout_height="44dp"
-            android:layout_marginTop="@dimen/value_5dp"
-            android:background="@drawable/bg_btn_send"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle_send"
             android:elevation="@dimen/value_5dp"
-            android:text="SEND"
-            android:textColor="@android:color/white" />
+            android:padding="8dp"
+            android:src="@drawable/ic_send_white_24dp" />
 
     </LinearLayout>
 

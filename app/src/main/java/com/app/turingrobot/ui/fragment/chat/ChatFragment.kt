@@ -62,9 +62,9 @@ class ChatFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, View.
 
         val multiTypePresenter = MultiTypePresenterImpl
                 .newBuilder()
-                .addHolders(TextMsgModel.DataPresenterImpl())
-                .addHolders(TextMsgTargetModel.DataPresenterImpl())
-                .addHolders(LinkModel.DataPresenterImpl())
+                .addHolders(TextMsgModel.newPresenter())
+                .addHolders(TextMsgTargetModel.newPresenter())
+                .addHolders(LinkModel.newPresenter())
                 .withViewModels(mData)
                 .build()
 

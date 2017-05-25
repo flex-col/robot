@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -21,9 +22,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.app.turingrobot.R;
 import com.app.turingrobot.ui.core.BaseActivity;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class WebActivity extends BaseActivity {
 
@@ -39,6 +44,8 @@ public class WebActivity extends BaseActivity {
 
     private WebView webView;
 
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +57,8 @@ public class WebActivity extends BaseActivity {
         fm = (FrameLayout) findViewById(R.id.wv);
 
         mLlWeb = (LinearLayout) findViewById(R.id.ll_web);
+
+        progressBar = (ProgressBar) findViewById(R.id.progress);
 
         init();
     }
@@ -96,6 +105,7 @@ public class WebActivity extends BaseActivity {
                 //接受所有的证书
                 handler.proceed();
             }
+
         });
 
         webView.setWebChromeClient(new WebChromeClient() {
@@ -106,7 +116,16 @@ public class WebActivity extends BaseActivity {
 
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress == 100) {
+                    progressBar.setVisibility(GONE);
+                } else {
+                    if (progressBar.getVisibility() == GONE) {
+                        progressBar.setVisibility(VISIBLE);
+                    }
+                    progressBar.setProgress(newProgress);
+                }
 
+                super.onProgressChanged(view, newProgress);
             }
         });
 
