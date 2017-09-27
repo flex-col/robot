@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.app.turingrobot.R
-import com.app.turingrobot.app.App
 import com.app.turingrobot.entity.CoreEntity
-import com.app.turingrobot.extra.toast
 import com.app.turingrobot.multitype.base.BaseViewHolder
 import com.app.turingrobot.multitype.base.ViewHolderPresenter
 import com.app.turingrobot.multitype.base.ViewModel
@@ -31,13 +29,15 @@ open class LinkModel(var data: CoreEntity) : ViewModel() {
 
     class DataHolder(@LayoutRes layoutId: Int, inflater: LayoutInflater, parent: ViewGroup) : BaseViewHolder(layoutId, inflater, parent) {
 
-        val content by lazy { itemView.findViewById(R.id.content) as ConstraintLayout }
+        val content by lazy { itemView.findViewById<ConstraintLayout>(R.id.content) }
 
-        val title by lazy { itemView.findViewById(R.id.title) as TextView }
+        val title by lazy { itemView.findViewById<TextView>(R.id.title) }
 
-        val tv_time by lazy { itemView.findViewById(R.id.tv_time) as TextView }
+        val tv_time by lazy { itemView.findViewById<TextView>(R.id.tv_time) }
 
-        val fresco_avatar by lazy { itemView.findViewById(R.id.fresco_avatar) as ImageView }
+        val tv_content by lazy { itemView.findViewById<TextView>(R.id.tv_content) }
+
+        val fresco_avatar by lazy { itemView.findViewById<ImageView>(R.id.fresco_avatar) }
 
     }
 
@@ -49,6 +49,7 @@ open class LinkModel(var data: CoreEntity) : ViewModel() {
             if (holder is DataHolder && entity is LinkModel) {
 
                 holder.title.text = entity.data.text
+                holder.tv_content.text = entity.data.url
 
                 holder.tv_time.text = TimeUtil.getHourMin(entity.data.time)
 

@@ -31,7 +31,8 @@ object StatusBarUtil {
      * *
      * @param statusBarAlpha 状态栏透明度
      */
-    @JvmOverloads fun setColor(activity: Activity, color: Int, statusBarAlpha: Int = DEFAULT_STATUS_BAR_ALPHA) {
+    @JvmOverloads
+    fun setColor(activity: Activity, color: Int, statusBarAlpha: Int = DEFAULT_STATUS_BAR_ALPHA) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             activity.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             activity.window.statusBarColor = calculateStatusColor(color, statusBarAlpha)
@@ -87,7 +88,8 @@ object StatusBarUtil {
      * *
      * @param statusBarAlpha 状态栏透明度
      */
-    @JvmOverloads fun setTranslucent(activity: Activity, statusBarAlpha: Int = DEFAULT_STATUS_BAR_ALPHA) {
+    @JvmOverloads
+    fun setTranslucent(activity: Activity, statusBarAlpha: Int = DEFAULT_STATUS_BAR_ALPHA) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             return
         }
@@ -149,7 +151,8 @@ object StatusBarUtil {
      * *
      * @param statusBarAlpha 状态栏透明度
      */
-    @JvmOverloads fun setColorForDrawerLayout(
+    @JvmOverloads
+    fun setColorForDrawerLayout(
             activity: Activity, drawerLayout: DrawerLayout,
             color: Int, statusBarAlpha: Int = DEFAULT_STATUS_BAR_ALPHA) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
@@ -218,7 +221,8 @@ object StatusBarUtil {
      * *
      * @param drawerLayout DrawerLayout
      */
-    @JvmOverloads fun setTranslucentForDrawerLayout(
+    @JvmOverloads
+    fun setTranslucentForDrawerLayout(
             activity: Activity, drawerLayout: DrawerLayout,
             statusBarAlpha: Int = DEFAULT_STATUS_BAR_ALPHA) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
@@ -292,7 +296,7 @@ object StatusBarUtil {
      * @param statusBarAlpha 透明值
      */
     private fun addTranslucentView(activity: Activity, statusBarAlpha: Int) {
-        val contentView = activity.findViewById(android.R.id.content) as ViewGroup
+        val contentView = activity.findViewById<ViewGroup>(android.R.id.content)
         // 移除半透明矩形,以免叠加
         if (contentView.childCount > 1) {
             contentView.removeViewAt(1)
@@ -345,7 +349,7 @@ object StatusBarUtil {
      */
     private fun setRootView(activity: Activity) {
         val rootView = (activity
-                .findViewById(android.R.id.content) as ViewGroup).getChildAt(0) as ViewGroup
+                .findViewById<ViewGroup>(android.R.id.content)).getChildAt(0) as ViewGroup
         rootView.fitsSystemWindows = true
         rootView.clipToPadding = true
     }

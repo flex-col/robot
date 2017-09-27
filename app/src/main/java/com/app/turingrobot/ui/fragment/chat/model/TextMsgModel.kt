@@ -27,11 +27,11 @@ open class TextMsgModel(var data: CoreEntity) : ViewModel() {
 
     class DataHolder(@LayoutRes layoutId: Int, inflater: LayoutInflater, parent: ViewGroup) : BaseViewHolder(layoutId, inflater, parent) {
 
-        val tv_content by lazy { itemView.findViewById(R.id.tv_content) as TextView }
+        val tv_content by lazy { itemView.findViewById<TextView>(R.id.tv_content) }
 
-        val tv_time by lazy { itemView.findViewById(R.id.tv_time) as TextView }
+        val tv_time by lazy { itemView.findViewById<TextView>(R.id.tv_time) }
 
-        val fresco_avatar by lazy { itemView.findViewById(R.id.fresco_avatar) as ImageView }
+        val fresco_avatar by lazy { itemView.findViewById<ImageView>(R.id.fresco_avatar) }
 
     }
 

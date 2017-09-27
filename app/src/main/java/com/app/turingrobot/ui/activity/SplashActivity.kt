@@ -16,7 +16,7 @@ import com.app.turingrobot.ui.core.BaseActivity
  */
 class SplashActivity : BaseActivity() {
 
-    val logo by lazy { findViewById(R.id.logo) as ImageView }
+    val logo by lazy { findViewById<ImageView>(R.id.logo) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -29,6 +29,7 @@ import android.graphics.*
 
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
+import java.security.MessageDigest
 
 /**
  * Description：GlideCircleTransform
@@ -36,8 +37,11 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
  * Time：2016-01-16 14:31
  */
 class GlideCircleTransform(context: Context) : BitmapTransformation(context) {
+    override fun updateDiskCacheKey(messageDigest: MessageDigest?) {
 
-    override fun transform(pool: BitmapPool, inBitmap: Bitmap?, destWidth: Int, destHeight: Int): Bitmap? {
+    }
+
+    override fun transform(pool: BitmapPool, inBitmap: Bitmap, outWidth: Int, outHeight: Int): Bitmap? {
         if (inBitmap == null) return null
 
         val size = Math.min(inBitmap.width, inBitmap.height)
@@ -60,9 +64,5 @@ class GlideCircleTransform(context: Context) : BitmapTransformation(context) {
         return result
     }
 
-
-    override fun getId(): String {
-        return javaClass.name
-    }
 
 }

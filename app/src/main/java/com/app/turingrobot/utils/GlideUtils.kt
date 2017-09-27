@@ -1,14 +1,11 @@
 package com.app.turingrobot.utils
 
 import android.app.Activity
-import android.content.Context
 import android.support.annotation.DrawableRes
 import android.view.View
 import android.widget.ImageView
-
 import com.app.turingrobot.R
-import com.app.turingrobot.widget.GlideCircleTransform
-import com.bumptech.glide.Glide
+import com.app.turingrobot.app.GlideApp
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.socks.library.KLog
 
@@ -56,11 +53,10 @@ object GlideUtils {
         }
 
         try {
-            Glide.with(context)
+            GlideApp.with(context)
                     .load(url)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(defaultImage)
-                    .crossFade()
                     .error(R.mipmap.img_default_gray)
                     .into(view)
                     .getSize { width, height ->
@@ -87,10 +83,9 @@ object GlideUtils {
         }
 
         try {
-            Glide.with(context)
+            GlideApp.with(context)
                     .load(resId)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .crossFade()
                     .placeholder(R.mipmap.img_default_gray)
                     .error(R.mipmap.img_default_gray)
                     .into(view)
@@ -118,13 +113,12 @@ object GlideUtils {
         }
 
         try {
-            Glide.with(context)
+            GlideApp.with(context)
                     .load(url)
                     .centerCrop()
+                    .circleCrop()
                     .placeholder(R.mipmap.img_default_gray)
                     .error(R.mipmap.img_default_gray)
-                    .bitmapTransform(GlideCircleTransform(context))
-                    .crossFade()
                     .into(view)
         } catch (e: Exception) {
             e.printStackTrace()
